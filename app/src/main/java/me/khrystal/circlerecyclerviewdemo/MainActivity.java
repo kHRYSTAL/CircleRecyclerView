@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.khrystal.library.widget.CircleRecyclerView;
-import me.khrystal.library.widget.CircularViewMode;
+import me.khrystal.library.widget.RotateXScaleYViewMode;
+import me.khrystal.library.widget.RotateYScaleXViewMode;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         CircleRecyclerView c = (CircleRecyclerView) findViewById(R.id.circle_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         c.setLayoutManager(layoutManager);
-        c.setViewModifier(new CircularViewMode());
+        c.setViewMode(new RotateYScaleXViewMode());
         c.setNeedCenterForce(true);
         for (int i = 0; i < 100; i++) {
             mData.add(i);

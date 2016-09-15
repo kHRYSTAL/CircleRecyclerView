@@ -24,7 +24,9 @@ public class CircleRecyclerView extends RecyclerView {
     private final CenterRunnable mCenterRunnable = new CenterRunnable();
     private ItemViewMode mViewMode;
     public boolean mNeedCenterForce;
+    private boolean mNeedLoop = true;
     private OnCenterItemClickListener mCenterItemClickListener;
+
 
     public CircleRecyclerView(Context context) {
         this(context, null);
@@ -42,7 +44,8 @@ public class CircleRecyclerView extends RecyclerView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        scrollToPosition(DEFAULT_SELECTION);
+        if (mNeedLoop)
+            scrollToPosition(DEFAULT_SELECTION);
     }
 
     @Override
@@ -54,7 +57,12 @@ public class CircleRecyclerView extends RecyclerView {
             for (int i = 0; i < count; ++i) {
                 View v = getChildAt(i);
                 if (v != null && mCenterItemClickListener != null)
-                    mCenterItemClickListener.onCenterItemClick(v);
+                    v.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mCenterItemClickListener.onCenterItemClick(v);
+                        }
+                    });
                 mViewMode.applyToView(v, this);
             }
         }
@@ -141,11 +149,26 @@ public class CircleRecyclerView extends RecyclerView {
         mNeedCenterForce = needCenterForce;
     }
 
+    /**
+     * default needLoop is true
+     *
+     * if not needLoop, the first time selection Center will invalid
+     * @param needLoop default true
+     */
+    public void setNeedLoop(boolean needLoop) {
+        mNeedLoop = needLoop;
+    }
+
+    /**
+     * set the certer item clickListener
+     *
+     * @param listener
+     */
     public void setOnCenterItemClickListener(OnCenterItemClickListener listener) {
         mCenterItemClickListener = listener;
     }
 
-    public void setViewModifier(ItemViewMode mode) {
+    public void setViewMode(ItemViewMode mode) {
         mViewMode = mode;
     }
 

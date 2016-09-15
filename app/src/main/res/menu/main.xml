@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity" >
+    <item
+        android:id="@+id/mode_1"
+        android:title="CircleMode"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_2"
+        android:title="ScaleXMode"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_3"
+        android:title="ScaleYMode"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_4"
+        android:title="RotateXScaleYMode"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_5"
+        android:title="RotateYScaleXMode"
+        app:showAsAction="never"/>
+
+</menu>  

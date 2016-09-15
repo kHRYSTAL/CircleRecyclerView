@@ -23,7 +23,7 @@ public class CircleRecyclerView extends RecyclerView {
     private boolean mIsForceCentering;
     private final CenterRunnable mCenterRunnable = new CenterRunnable();
     private ItemViewMode mViewMode;
-    public boolean mNeedCenterForce;
+    private boolean mNeedCenterForce;
     private boolean mNeedLoop = true;
     private OnCenterItemClickListener mCenterItemClickListener;
 

@@ -13,10 +13,21 @@ import android.view.View;
  */
 public class CircularViewMode implements ItemViewMode {
 
-    private static final int CIRCLE_OFFSET = 500;
-    private static final float DEGTORAD = 1.0f / 180.0f * (float) Math.PI;
-    private static final float SCALING_RATIO = 0.001f;
-    private static final float TRANSLATION_RATIO = 0.09f;
+    private int mCircleOffset = 500;
+    private float mDegToRad = 1.0f / 180.0f * (float) Math.PI;
+    private float mScalingRatio = 0.001f;
+    private float mTranslationRatio = 0.09f;
+
+    public CircularViewMode() {}
+
+    public CircularViewMode(int circleOffset, float degToRad, float scalingRatio, float translationRatio) {
+        mCircleOffset = circleOffset;
+        mDegToRad = degToRad;
+        mScalingRatio = scalingRatio;
+        mTranslationRatio = translationRatio;
+
+    }
+
 
     @Override
     public void applyToView(View v, RecyclerView parent) {
@@ -28,9 +39,9 @@ public class CircularViewMode implements ItemViewMode {
         ViewCompat.setPivotX(v, 0.0f);
         ViewCompat.setPivotY(v, halfHeight);
         ViewCompat.setRotation(v, rot * 0.05f);
-        ViewCompat.setTranslationX(v, (float)(-Math.cos(rot * TRANSLATION_RATIO * DEGTORAD) + 1) * CIRCLE_OFFSET);
+        ViewCompat.setTranslationX(v, (float)(-Math.cos(rot * mTranslationRatio * mDegToRad) + 1) * mCircleOffset);
 
-        float scale = 1.0f - Math.abs(parentHalfHeight - halfHeight - y) * SCALING_RATIO;
+        float scale = 1.0f - Math.abs(parentHalfHeight - halfHeight - y) * mScalingRatio;
         ViewCompat.setScaleX(v, scale);
         ViewCompat.setScaleY(v, scale);
     }

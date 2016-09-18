@@ -54,6 +54,6 @@ public class RotateXScaleYViewMode implements ItemViewMode {
         float degree = rot * (last - first);
         if (degree > 90) degree = 90;
         if (degree < -90) degree = -90;
-        v.setRotationX(degree);
+        ViewCompat.setRotationX(v, degree);
     }
 }

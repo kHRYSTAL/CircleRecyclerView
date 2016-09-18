@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
+
 /**
  * usage:
  * author: kHRYSTAL
@@ -56,13 +58,7 @@ public class CircleRecyclerView extends RecyclerView {
             final int count = getChildCount();
             for (int i = 0; i < count; ++i) {
                 View v = getChildAt(i);
-                if (v != null && mCenterItemClickListener != null)
-                    v.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mCenterItemClickListener.onCenterItemClick(v);
-                        }
-                    });
+
                 mViewMode.applyToView(v, this);
             }
         }
@@ -92,6 +88,13 @@ public class CircleRecyclerView extends RecyclerView {
             if (mNeedCenterForce && !mIsForceCentering) {
                 mIsForceCentering = true;
                 final View childView = findViewAtCenter();
+                if (childView != null && mCenterItemClickListener != null)
+                    childView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mCenterItemClickListener.onCenterItemClick(v);
+                        }
+                    });
                 mCenterRunnable.setView(childView);
                 ViewCompat.postOnAnimation(this, mCenterRunnable);
             }
@@ -131,15 +134,15 @@ public class CircleRecyclerView extends RecyclerView {
 
     public class CenterRunnable implements Runnable {
 
-        private View mView;
+        private WeakReference<View> mView;
 
         public void setView(View v) {
-            mView = v;
+            mView = new WeakReference<View>(v);
         }
 
         @Override
         public void run() {
-            smoothScrollToView(mView);
+            smoothScrollToView(mView.get());
             if (mNeedCenterForce)
                 mIsForceCentering = true;
         }
@@ -173,6 +176,6 @@ public class CircleRecyclerView extends RecyclerView {
     }
 
     public interface OnCenterItemClickListener {
-        public void onCenterItemClick(View v);
+         void onCenterItemClick(View v);
     }
 }

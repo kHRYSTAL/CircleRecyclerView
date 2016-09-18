@@ -6,6 +6,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,7 +21,7 @@ import java.lang.ref.WeakReference;
  */
 public class CircleRecyclerView extends RecyclerView {
 
-    private static final int DEFAULT_SELECTION = Integer.MAX_VALUE >> 2;
+    private static final int DEFAULT_SELECTION = Integer.MAX_VALUE >> 1;
 
     private boolean mIsForceCentering;
     private final CenterRunnable mCenterRunnable = new CenterRunnable();
@@ -28,6 +29,8 @@ public class CircleRecyclerView extends RecyclerView {
     private boolean mNeedCenterForce;
     private boolean mNeedLoop = true;
     private OnCenterItemClickListener mCenterItemClickListener;
+    private View mCurrentCenterChildView;
+    private boolean isFirstOnLayout = true;
 
 
     public CircleRecyclerView(Context context) {
@@ -43,11 +46,19 @@ public class CircleRecyclerView extends RecyclerView {
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
+
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (mNeedLoop)
+        if (mNeedLoop) {
             scrollToPosition(DEFAULT_SELECTION);
+            if (isFirstOnLayout) {
+                isFirstOnLayout = false;
+                mCurrentCenterChildView = findViewAtCenter();
+                smoothScrollToView(mCurrentCenterChildView);
+            }
+        }
     }
 
     @Override
@@ -58,7 +69,8 @@ public class CircleRecyclerView extends RecyclerView {
             final int count = getChildCount();
             for (int i = 0; i < count; ++i) {
                 View v = getChildAt(i);
-
+                if (v != mCurrentCenterChildView && mCenterItemClickListener != null)
+                    v.setOnClickListener(null);
                 mViewMode.applyToView(v, this);
             }
         }
@@ -87,15 +99,15 @@ public class CircleRecyclerView extends RecyclerView {
         if (state == SCROLL_STATE_IDLE) {
             if (mNeedCenterForce && !mIsForceCentering) {
                 mIsForceCentering = true;
-                final View childView = findViewAtCenter();
-                if (childView != null && mCenterItemClickListener != null)
-                    childView.setOnClickListener(new OnClickListener() {
+                mCurrentCenterChildView = findViewAtCenter();
+                if (mCurrentCenterChildView != null && mCenterItemClickListener != null)
+                    mCurrentCenterChildView.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mCenterItemClickListener.onCenterItemClick(v);
                         }
                     });
-                mCenterRunnable.setView(childView);
+                mCenterRunnable.setView(mCurrentCenterChildView);
                 ViewCompat.postOnAnimation(this, mCenterRunnable);
             }
         }

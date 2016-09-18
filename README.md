@@ -4,6 +4,17 @@ the library is a loop RecyclerView, can show some effects when display
 
 ### screenshot
 
+CircularViewMode
+
+![CircularViewMode](https://github.com/kHRYSTAL/CircleRecyclerView/blob/master/screenshot/screenshot1.gif)
+
+ScaleXViewMode & ScaleYViewMode
+
+![ScaleXYViewMode](https://github.com/kHRYSTAL/CircleRecyclerView/blob/master/screenshot/screenshot2.gif)
+
+RotateXScaleYViewMode & RotateYScaleXViewMode
+
+![RotateXYScaleXYViewMode](https://github.com/kHRYSTAL/CircleRecyclerView/blob/master/screenshot/screenshot3.gif)
 
 
 

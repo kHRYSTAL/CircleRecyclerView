@@ -11,6 +11,7 @@ import android.view.View;
 
 import java.lang.ref.WeakReference;
 
+
 /**
  * usage:
  * author: kHRYSTAL
@@ -18,7 +19,7 @@ import java.lang.ref.WeakReference;
  * update time:
  * email: 723526676@qq.com
  */
-public class CircleRecyclerView extends RecyclerView {
+public class CircleRecyclerView extends RecyclerView implements View.OnClickListener {
 
     private static final int DEFAULT_SELECTION = Integer.MAX_VALUE >> 1;
 
@@ -29,7 +30,6 @@ public class CircleRecyclerView extends RecyclerView {
     private boolean mNeedLoop = true;
     private OnCenterItemClickListener mCenterItemClickListener;
     private View mCurrentCenterChildView;
-    private boolean isFirstOnLayout = true;
     private OnScrollListener mOnScrollListener;
 
 
@@ -51,36 +51,25 @@ public class CircleRecyclerView extends RecyclerView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+
         if (mNeedLoop) {
             scrollToPosition(DEFAULT_SELECTION);
-            if (isFirstOnLayout) {
-                mCurrentCenterChildView = findViewAtCenter();
-                smoothScrollToView(mCurrentCenterChildView);
-            }
+            mCurrentCenterChildView = findViewAtCenter();
+            smoothScrollToView(mCurrentCenterChildView);
         } else if (!mNeedLoop && mNeedCenterForce) {
-            if (isFirstOnLayout) {
-                LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
-                if (layoutManager.canScrollHorizontally())
-                    setPadding(getWidth() / 2, 0, getWidth() / 2, 0);
-                else if (layoutManager.canScrollVertically())
-                    setPadding(0, getHeight() / 2, 0, getHeight() / 2);
-                setClipToPadding(false);
-                setClipChildren(false);
-                isFirstOnLayout = false;
-                mCurrentCenterChildView = findViewAtCenter();
-                smoothScrollToView(mCurrentCenterChildView);
-            }
+            LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
+            if (layoutManager.canScrollHorizontally())
+                setPadding(getWidth() / 2, 0, getWidth() / 2, 0);
+            else if (layoutManager.canScrollVertically())
+                setPadding(0, getHeight() / 2, 0, getHeight() / 2);
+            setClipToPadding(false);
+            setClipChildren(false);
+            mCurrentCenterChildView = findViewAtCenter();
+            smoothScrollToView(mCurrentCenterChildView);
         }
-        if (isFirstOnLayout) {
-            isFirstOnLayout = false;
-            if (mCenterItemClickListener != null && mCurrentCenterChildView != null)
-                mCurrentCenterChildView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCenterItemClickListener.onCenterItemClick(v);
-                    }
-                });
-        }
+
+        if (mCurrentCenterChildView != null)
+            mCurrentCenterChildView.setOnClickListener(this);
     }
 
     @Override
@@ -119,7 +108,6 @@ public class CircleRecyclerView extends RecyclerView {
         smoothScrollBy(distance,distance);
     }
 
-
     @Override
     public void onScrolled(int dx, int dy) {
         super.onScrolled(dx, dy);
@@ -134,12 +122,7 @@ public class CircleRecyclerView extends RecyclerView {
                 mIsForceCentering = true;
                 mCurrentCenterChildView = findViewAtCenter();
                 if (mCurrentCenterChildView != null && mCenterItemClickListener != null)
-                    mCurrentCenterChildView.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mCenterItemClickListener.onCenterItemClick(v);
-                        }
-                    });
+                    mCurrentCenterChildView.setOnClickListener(this);
                 mCenterRunnable.setView(mCurrentCenterChildView);
                 ViewCompat.postOnAnimation(this, mCenterRunnable);
             }
@@ -178,6 +161,12 @@ public class CircleRecyclerView extends RecyclerView {
             return findViewAt(getWidth() / 2, 0);
         }
         return null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mCenterItemClickListener != null)
+            mCenterItemClickListener.onCenterItemClick(v);
     }
 
     public class CenterRunnable implements Runnable {

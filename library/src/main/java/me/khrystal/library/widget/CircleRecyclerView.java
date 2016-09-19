@@ -1,16 +1,13 @@
 package me.khrystal.library.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import java.lang.ref.WeakReference;
 
@@ -57,7 +54,6 @@ public class CircleRecyclerView extends RecyclerView {
         if (mNeedLoop) {
             scrollToPosition(DEFAULT_SELECTION);
             if (isFirstOnLayout) {
-                isFirstOnLayout = false;
                 mCurrentCenterChildView = findViewAtCenter();
                 smoothScrollToView(mCurrentCenterChildView);
             }
@@ -75,8 +71,16 @@ public class CircleRecyclerView extends RecyclerView {
                 smoothScrollToView(mCurrentCenterChildView);
             }
         }
-
-
+        if (isFirstOnLayout) {
+            isFirstOnLayout = false;
+            if (mCenterItemClickListener != null && mCurrentCenterChildView != null)
+                mCurrentCenterChildView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCenterItemClickListener.onCenterItemClick(v);
+                    }
+                });
+        }
     }
 
     @Override

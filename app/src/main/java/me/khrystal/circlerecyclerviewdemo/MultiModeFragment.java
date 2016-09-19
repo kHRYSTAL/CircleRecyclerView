@@ -154,7 +154,6 @@ public class MultiModeFragment extends Fragment{
 
         @Override
         public int getItemCount() {
-            Log.d("TEST", ""+ mIsNotLoop + "," + mImgList.size() );
             return mIsNotLoop ? mImgList.size() : Integer.MAX_VALUE;
         }
     }

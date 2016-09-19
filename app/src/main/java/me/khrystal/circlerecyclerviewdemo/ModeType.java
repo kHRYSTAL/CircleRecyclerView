@@ -24,6 +24,8 @@ public class ModeType {
     public static final int TYPE_ROTATEXSCALEY = 4;
     @ModeTypeChecker
     public static final int TYPE_ROTETEYSCALEX = 5;
+    @ModeTypeChecker
+    public static final int TYPE_CIRCLE_NO_LOOP = 6;
 
 
     @IntDef({TYPE_CIRCLE,TYPE_SCALEX,TYPE_SCALEY,TYPE_ROTETEYSCALEX,TYPE_ROTATEXSCALEY})

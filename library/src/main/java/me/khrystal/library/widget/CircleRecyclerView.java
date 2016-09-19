@@ -1,5 +1,6 @@
 package me.khrystal.library.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import java.lang.ref.WeakReference;
 
@@ -31,6 +33,7 @@ public class CircleRecyclerView extends RecyclerView {
     private OnCenterItemClickListener mCenterItemClickListener;
     private View mCurrentCenterChildView;
     private boolean isFirstOnLayout = true;
+    private OnScrollListener mOnScrollListener;
 
 
     public CircleRecyclerView(Context context) {
@@ -58,7 +61,22 @@ public class CircleRecyclerView extends RecyclerView {
                 mCurrentCenterChildView = findViewAtCenter();
                 smoothScrollToView(mCurrentCenterChildView);
             }
+        } else if (!mNeedLoop && mNeedCenterForce) {
+            if (isFirstOnLayout) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
+                if (layoutManager.canScrollHorizontally())
+                    setPadding(getWidth() / 2, 0, getWidth() / 2, 0);
+                else if (layoutManager.canScrollVertically())
+                    setPadding(0, getHeight() / 2, 0, getHeight() / 2);
+                setClipToPadding(false);
+                setClipChildren(false);
+                isFirstOnLayout = false;
+                mCurrentCenterChildView = findViewAtCenter();
+                smoothScrollToView(mCurrentCenterChildView);
+            }
         }
+
+
     }
 
     @Override
@@ -74,6 +92,9 @@ public class CircleRecyclerView extends RecyclerView {
                 mViewMode.applyToView(v, this);
             }
         }
+
+        if (mOnScrollListener != null)
+            mOnScrollListener.onScrollChanged(l, t, oldl, oldt);
     }
 
     public void smoothScrollToView(View v) {
@@ -94,6 +115,14 @@ public class CircleRecyclerView extends RecyclerView {
         smoothScrollBy(distance,distance);
     }
 
+
+    @Override
+    public void onScrolled(int dx, int dy) {
+        super.onScrolled(dx, dy);
+        if (mOnScrollListener != null)
+            mOnScrollListener.onScrolled(dx, dy);
+    }
+
     @Override
     public void onScrollStateChanged(int state) {
         if (state == SCROLL_STATE_IDLE) {
@@ -111,6 +140,9 @@ public class CircleRecyclerView extends RecyclerView {
                 ViewCompat.postOnAnimation(this, mCenterRunnable);
             }
         }
+
+        if (mOnScrollListener != null)
+            mOnScrollListener.onScrollStateChanged(state);
     }
 
     @Override
@@ -166,8 +198,9 @@ public class CircleRecyclerView extends RecyclerView {
 
     /**
      * default needLoop is true
-     *
-     * if not needLoop, the first time selection Center will invalid
+     * if not needLoop && centerForce
+     * will setPadding your layoutManger direction half width or height
+     * and setClipPadding(false), setClipChildren(false)
      * @param needLoop default true
      */
     public void setNeedLoop(boolean needLoop) {
@@ -175,7 +208,7 @@ public class CircleRecyclerView extends RecyclerView {
     }
 
     /**
-     * set the certer item clickListener
+     * set the center item clickListener
      *
      * @param listener
      */
@@ -187,7 +220,17 @@ public class CircleRecyclerView extends RecyclerView {
         mViewMode = mode;
     }
 
+    public void setOnScrollListener(OnScrollListener listener) {
+        mOnScrollListener = listener;
+    }
+
     public interface OnCenterItemClickListener {
-         void onCenterItemClick(View v);
+        void onCenterItemClick(View v);
+    }
+
+    public interface OnScrollListener {
+        void onScrollChanged(int l, int t, int oldl, int oldt);
+        void onScrollStateChanged(int state);
+        void onScrolled(int dx, int dy);
     }
 }

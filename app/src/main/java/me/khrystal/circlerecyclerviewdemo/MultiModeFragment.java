@@ -1,12 +1,15 @@
 package me.khrystal.circlerecyclerviewdemo;
 
+import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +43,7 @@ public class MultiModeFragment extends Fragment{
     private ItemViewMode mItemViewMode;
     private LinearLayoutManager mLayoutManager;
     private List<Integer> mImgList;
+    private boolean mIsNotLoop;
 
     private Integer[] mImgs = {
             R.drawable.img_1, R.drawable.img_2, R.drawable.img_3, R.drawable.img_4,
@@ -89,11 +93,19 @@ public class MultiModeFragment extends Fragment{
                 mItemViewMode = new RotateYScaleXViewMode();
                 mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 break;
+            case 6:
+                mItemViewMode = new CircularViewMode();
+                mLayoutManager = new LinearLayoutManager(getContext());
+                mIsNotLoop = true;
+                break;
+
         }
 
         mCircleRecyclerView.setLayoutManager(mLayoutManager);
         mCircleRecyclerView.setViewMode(mItemViewMode);
         mCircleRecyclerView.setNeedCenterForce(true);
+        mCircleRecyclerView.setNeedLoop(!mIsNotLoop);
+
         mCircleRecyclerView.setOnCenterItemClickListener(new CircleRecyclerView.OnCenterItemClickListener() {
             @Override
             public void onCenterItemClick(View v) {
@@ -133,7 +145,8 @@ public class MultiModeFragment extends Fragment{
         @Override
         public void onBindViewHolder(VH holder, int position) {
             holder.tv.setText("Number :" + (position % mImgList.size()));
-            Glide.with(getContext()).load(mImgList.get(position % mImgList.size()))
+            Glide.with(getContext())
+                    .load(mImgList.get(position % mImgList.size()))
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(holder.iv);
 
@@ -141,7 +154,8 @@ public class MultiModeFragment extends Fragment{
 
         @Override
         public int getItemCount() {
-            return Integer.MAX_VALUE;
+            Log.d("TEST", ""+ mIsNotLoop + "," + mImgList.size() );
+            return mIsNotLoop ? mImgList.size() : Integer.MAX_VALUE;
         }
     }
 

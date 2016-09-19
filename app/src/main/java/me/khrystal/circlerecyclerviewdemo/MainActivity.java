@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                         modeType = ModeType.TYPE_ROTETEYSCALEX;
                         mToolbar.setTitle("TYPE_ROTETEYSCALEX");
                         break;
+                    case R.id.mode_6:
+                        modeType = ModeType.TYPE_CIRCLE_NO_LOOP;
+                        mToolbar.setTitle("NOLOOPBUTCENTER");
                     default:
                         break;
                 }

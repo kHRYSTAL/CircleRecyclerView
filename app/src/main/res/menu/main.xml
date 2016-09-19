@@ -22,5 +22,9 @@
         android:id="@+id/mode_5"
         android:title="RotateYScaleXMode"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_6"
+        android:title="NoLoopButCenterForce"
+        app:showAsAction="never"/>
 
 </menu>  

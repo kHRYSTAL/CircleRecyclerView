@@ -1,6 +1,8 @@
 package me.khrystal.library.widget;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +33,13 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     private OnCenterItemClickListener mCenterItemClickListener;
     private View mCurrentCenterChildView;
     private OnScrollListener mOnScrollListener;
-
+    private boolean mFirstOnLayout;
+    private Handler mPostHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            scrollToPosition(DEFAULT_SELECTION);
+        }
+    };
 
     public CircleRecyclerView(Context context) {
         this(context, null);
@@ -53,7 +61,12 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         super.onLayout(changed, l, t, r, b);
 
         if (mNeedLoop) {
-            scrollToPosition(DEFAULT_SELECTION);
+//            scrollToPosition Notwork use delay
+            if (!mFirstOnLayout) {
+                mFirstOnLayout = true;
+                mPostHandler.sendEmptyMessage(0);
+            }
+//            scrollToPosition(DEFAULT_SELECTION);
             mCurrentCenterChildView = findViewAtCenter();
             smoothScrollToView(mCurrentCenterChildView);
         } else if (!mNeedLoop && mNeedCenterForce) {

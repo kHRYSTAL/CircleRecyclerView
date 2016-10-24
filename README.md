@@ -20,6 +20,10 @@ NoLoop but CenterForce (setClipPadding(l,t,r,b); setClipChildren(false);)
 
 ![](http://ww2.sinaimg.cn/large/72f96cbajw1f7yqcwf0cyg20cz0l9n54.gif)
 
+CircularHorizontalMode
+
+![CircularHorizontalMode](https://github.com/kHRYSTAL/CircleRecyclerView/blob/master/screenshot/screenshot4.gif)
+
 ### usage
 
 ```

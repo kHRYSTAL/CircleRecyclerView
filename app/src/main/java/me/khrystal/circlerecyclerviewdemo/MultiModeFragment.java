@@ -23,6 +23,7 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
+import me.khrystal.library.widget.CircularHorizontalMode;
 import me.khrystal.library.widget.CircularViewMode;
 import me.khrystal.library.widget.ItemViewMode;
 import me.khrystal.library.widget.RotateXScaleYViewMode;
@@ -97,6 +98,10 @@ public class MultiModeFragment extends Fragment{
                 mItemViewMode = new CircularViewMode();
                 mLayoutManager = new LinearLayoutManager(getContext());
                 mIsNotLoop = true;
+                break;
+            case 7:
+                mItemViewMode = new CircularHorizontalMode();
+                mLayoutManager =  new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 break;
 
         }

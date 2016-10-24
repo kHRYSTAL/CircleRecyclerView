@@ -26,9 +26,11 @@ public class ModeType {
     public static final int TYPE_ROTETEYSCALEX = 5;
     @ModeTypeChecker
     public static final int TYPE_CIRCLE_NO_LOOP = 6;
+    @ModeTypeChecker
+    public static final int TYPE_HORIZONTAL_CIRCLE = 7;
 
 
-    @IntDef({TYPE_CIRCLE,TYPE_SCALEX,TYPE_SCALEY,TYPE_ROTETEYSCALEX,TYPE_ROTATEXSCALEY})
+    @IntDef({TYPE_CIRCLE,TYPE_SCALEX,TYPE_SCALEY,TYPE_ROTETEYSCALEX,TYPE_ROTATEXSCALEY,TYPE_CIRCLE_NO_LOOP,TYPE_HORIZONTAL_CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ModeTypeChecker{}
 }

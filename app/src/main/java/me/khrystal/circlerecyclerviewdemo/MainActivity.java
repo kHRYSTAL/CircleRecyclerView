@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mode_6:
                         modeType = ModeType.TYPE_CIRCLE_NO_LOOP;
                         mToolbar.setTitle("NOLOOPBUTCENTER");
+                    case R.id.mode_7:
+                        modeType = ModeType.TYPE_HORIZONTAL_CIRCLE;
+                        mToolbar.setTitle("HORIZONTAL_CIRCLE");
                     default:
                         break;
                 }

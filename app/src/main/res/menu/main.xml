@@ -26,5 +26,9 @@
         android:id="@+id/mode_6"
         android:title="NoLoopButCenterForce"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_7"
+        android:title="HorizontalCircle"
+        app:showAsAction="never"/>
 
 </menu>  

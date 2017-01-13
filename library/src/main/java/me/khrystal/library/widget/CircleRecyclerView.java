@@ -248,7 +248,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         if (mFirstSetAdapter) {
             mFirstSetAdapter = false;
         } else {
-            if (adapter != null)
+            if (adapter != null && mNeedCenterForce)
                 mPostHandler.sendEmptyMessage(0);
         }
     }

@@ -34,6 +34,8 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     private View mCurrentCenterChildView;
     private OnScrollListener mOnScrollListener;
     private boolean mFirstOnLayout;
+    private boolean mFirstSetAdapter = true;
+
     private Handler mPostHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -238,5 +240,16 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         void onScrollChanged(int l, int t, int oldl, int oldt);
         void onScrollStateChanged(int state);
         void onScrolled(int dx, int dy);
+    }
+
+    @Override
+    public void setAdapter(Adapter adapter) {
+        super.setAdapter(adapter);
+        if (mFirstSetAdapter) {
+            mFirstSetAdapter = false;
+        } else {
+            if (adapter != null)
+                mPostHandler.sendEmptyMessage(0);
+        }
     }
 }

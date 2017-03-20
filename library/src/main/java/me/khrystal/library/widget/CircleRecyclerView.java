@@ -252,4 +252,8 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
                 mPostHandler.sendEmptyMessage(0);
         }
     }
+
+    public View getCurrentCenterChild() {
+        return mCurrentCenterChildView;
+    }
 }

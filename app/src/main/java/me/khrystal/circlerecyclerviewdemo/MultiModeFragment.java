@@ -111,12 +111,12 @@ public class MultiModeFragment extends Fragment{
         mCircleRecyclerView.setNeedCenterForce(true);
         mCircleRecyclerView.setNeedLoop(!mIsNotLoop);
 
-        mCircleRecyclerView.setOnCenterItemClickListener(new CircleRecyclerView.OnCenterItemClickListener() {
-            @Override
-            public void onCenterItemClick(View v) {
-                Toast.makeText(getContext(), "Center Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mCircleRecyclerView.setOnCenterItemClickListener(new CircleRecyclerView.OnCenterItemClickListener() {
+//            @Override
+//            public void onCenterItemClick(View v) {
+//                Toast.makeText(getContext(), "Center Clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
 
@@ -148,12 +148,20 @@ public class MultiModeFragment extends Fragment{
         }
 
         @Override
-        public void onBindViewHolder(VH holder, int position) {
+        public void onBindViewHolder(final VH holder, final int position) {
             holder.tv.setText("Number :" + (position % mImgList.size()));
             Glide.with(getContext())
                     .load(mImgList.get(position % mImgList.size()))
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(holder.iv);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.itemView.equals(mCircleRecyclerView.getCurrentCenterChild())) {
+                        Toast.makeText(getActivity(), "this is Center, position:" + position % mImgList.size(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
         }
 

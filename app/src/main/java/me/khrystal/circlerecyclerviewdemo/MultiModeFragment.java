@@ -1,22 +1,18 @@
 package me.khrystal.circlerecyclerviewdemo;
 
-import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +21,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
 import me.khrystal.library.widget.CircularHorizontalMode;
 import me.khrystal.library.widget.CircularViewMode;
+import me.khrystal.library.widget.CircularViewRTLMode;
 import me.khrystal.library.widget.ItemViewMode;
 import me.khrystal.library.widget.RotateXScaleYViewMode;
 import me.khrystal.library.widget.RotateYScaleXViewMode;
@@ -103,6 +100,10 @@ public class MultiModeFragment extends Fragment{
                 mItemViewMode = new CircularHorizontalMode();
                 mLayoutManager =  new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 break;
+            case 8:
+                mItemViewMode = new CircularViewRTLMode();
+                mLayoutManager = new LinearLayoutManager(getContext());
+                break;
 
         }
 
@@ -139,6 +140,9 @@ public class MultiModeFragment extends Fragment{
                 if (mItemViewMode instanceof CircularViewMode)
                     h = new VH(LayoutInflater.from(getContext())
                             .inflate(R.layout.item_c_v, parent, false));
+                else if (mItemViewMode instanceof CircularViewRTLMode)
+                    h = new VH(LayoutInflater.from(getContext())
+                            .inflate(R.layout.item_c_rtl_v, parent,false));
                 else
                     h = new VH(LayoutInflater.from(getContext())
                         .inflate(R.layout.item_v, parent, false));

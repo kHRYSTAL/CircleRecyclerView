@@ -13,6 +13,8 @@ import android.view.View;
 
 import java.lang.ref.WeakReference;
 
+import me.khrystal.library.R;
+
 
 /**
  * usage:
@@ -87,6 +89,8 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
             mCurrentCenterChildView.setOnClickListener(this);
     }
 
+
+
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -97,6 +101,11 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
                 View v = getChildAt(i);
                 if (v != mCurrentCenterChildView && mCenterItemClickListener != null)
                     v.setOnClickListener(null);
+                if (v == mCurrentCenterChildView)
+                    v.setTag(R.string.tag_is_center, true);
+                else
+                    v.setTag(R.string.tag_is_center, false);
+
                 mViewMode.applyToView(v, this);
             }
         }

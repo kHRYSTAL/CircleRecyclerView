@@ -3,6 +3,9 @@ package me.khrystal.library.widget;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+
+import me.khrystal.library.R;
 
 /**
  * usage:
@@ -28,6 +31,7 @@ public class ScaleXViewMode implements ItemViewMode {
         float x = v.getX();
         float rot = parentHalfWidth - halfWidth - x;
         float scale = 1.0f - Math.abs(rot) * mScaleRatio;
+        boolean isCenter = (boolean) v.getTag(R.string.tag_is_center);
         ViewCompat.setScaleX(v, scale);
         ViewCompat.setScaleY(v, scale);
     }

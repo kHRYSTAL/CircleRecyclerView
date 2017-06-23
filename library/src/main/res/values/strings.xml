@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">library</string>
+    <string name="tag_is_center">tagIsCenter</string>
 </resources>

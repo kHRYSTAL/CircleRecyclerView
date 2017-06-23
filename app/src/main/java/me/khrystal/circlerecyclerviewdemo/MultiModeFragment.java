@@ -35,7 +35,7 @@ import me.khrystal.library.widget.ScaleYViewMode;
  * update time:
  * email: 723526676@qq.com
  */
-public class MultiModeFragment extends Fragment{
+public class MultiModeFragment extends Fragment {
 
     private CircleRecyclerView mCircleRecyclerView;
     private ItemViewMode mItemViewMode;
@@ -49,7 +49,7 @@ public class MultiModeFragment extends Fragment{
             R.drawable.img_9, R.drawable.img_10, R.drawable.img_11, R.drawable.img_12
     };
 
-    public static MultiModeFragment newInstance(@ModeType.ModeTypeChecker int modeType){
+    public static MultiModeFragment newInstance(@ModeType.ModeTypeChecker int modeType) {
         MultiModeFragment fragment = new MultiModeFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("mode_type", modeType);
@@ -59,7 +59,7 @@ public class MultiModeFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment,container,false);
+        return inflater.inflate(R.layout.fragment, container, false);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MultiModeFragment extends Fragment{
                 break;
             case 7:
                 mItemViewMode = new CircularHorizontalMode();
-                mLayoutManager =  new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 break;
             case 8:
                 mItemViewMode = new CircularViewRTLMode();
@@ -120,8 +120,7 @@ public class MultiModeFragment extends Fragment{
         });
 
 
-
-        mImgList =  Arrays.asList(mImgs);
+        mImgList = Arrays.asList(mImgs);
         Collections.shuffle(mImgList);
 
         mCircleRecyclerView.setAdapter(new A());
@@ -134,7 +133,7 @@ public class MultiModeFragment extends Fragment{
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
             VH h = null;
             if (mCircleRecyclerView.getLayoutManager().canScrollHorizontally()) {
-                    h = new VH(LayoutInflater.from(getContext())
+                h = new VH(LayoutInflater.from(getContext())
                         .inflate(R.layout.item_h, parent, false));
             } else if (mCircleRecyclerView.getLayoutManager().canScrollVertically()) {
                 if (mItemViewMode instanceof CircularViewMode)
@@ -142,10 +141,10 @@ public class MultiModeFragment extends Fragment{
                             .inflate(R.layout.item_c_v, parent, false));
                 else if (mItemViewMode instanceof CircularViewRTLMode)
                     h = new VH(LayoutInflater.from(getContext())
-                            .inflate(R.layout.item_c_rtl_v, parent,false));
+                            .inflate(R.layout.item_c_rtl_v, parent, false));
                 else
                     h = new VH(LayoutInflater.from(getContext())
-                        .inflate(R.layout.item_v, parent, false));
+                            .inflate(R.layout.item_v, parent, false));
             }
 
             return h;

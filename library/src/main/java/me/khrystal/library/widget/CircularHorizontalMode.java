@@ -19,7 +19,8 @@ public class CircularHorizontalMode implements ItemViewMode {
     private float mScalingRatio = 0.001f;
     private float mTranslationRatio = 0.15f;
 
-    public CircularHorizontalMode() {}
+    public CircularHorizontalMode() {
+    }
 
     public CircularHorizontalMode(int circleOffset, float degToRad, float scalingRatio, float translationRatio) {
         mCircleOffset = circleOffset;
@@ -40,7 +41,7 @@ public class CircularHorizontalMode implements ItemViewMode {
         ViewCompat.setPivotY(v, 0.0f);
         ViewCompat.setPivotX(v, halfWidth);
         ViewCompat.setRotation(v, -rot * 0.05f);
-        ViewCompat.setTranslationY(v, (float)(-Math.cos(rot * mTranslationRatio * mDegToRad) + 1) * mCircleOffset);
+        ViewCompat.setTranslationY(v, (float) (-Math.cos(rot * mTranslationRatio * mDegToRad) + 1) * mCircleOffset);
 
         float scale = 1.0f - Math.abs(parentHalfWidth - halfWidth - x) * mScalingRatio;
         ViewCompat.setScaleX(v, scale);

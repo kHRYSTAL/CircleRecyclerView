@@ -32,7 +32,8 @@ public class ModeType {
     public static final int TYPE_CIRCLE_RTL = 8;
 
 
-    @IntDef({TYPE_CIRCLE,TYPE_SCALEX,TYPE_SCALEY,TYPE_ROTETEYSCALEX,TYPE_ROTATEXSCALEY,TYPE_CIRCLE_NO_LOOP,TYPE_HORIZONTAL_CIRCLE, TYPE_CIRCLE_RTL})
+    @IntDef({TYPE_CIRCLE, TYPE_SCALEX, TYPE_SCALEY, TYPE_ROTETEYSCALEX, TYPE_ROTATEXSCALEY, TYPE_CIRCLE_NO_LOOP, TYPE_HORIZONTAL_CIRCLE, TYPE_CIRCLE_RTL})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ModeTypeChecker{}
+    public @interface ModeTypeChecker {
+    }
 }

@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
     <item
-        android:id="@+id/optimize"
-        android:icon="@mipmap/ic_launcher"
-        android:orderInCategory="90"
-        android:title="optimize"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/mode_1"
         android:title="CircleMode"
         app:showAsAction="never"/>

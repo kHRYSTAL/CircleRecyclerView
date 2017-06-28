@@ -38,18 +38,12 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     private boolean mFirstOnLayout;
     private boolean mFirstSetAdapter = true;
 
-    private int firstPosition;
-    private int lastPosition;
-    private boolean isLoadAccess;
-    private boolean optimizeLoadImg;
-
     private Handler mPostHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             scrollToPosition(DEFAULT_SELECTION);
         }
     };
-    private LinearLayoutManager manager;
 
     public CircleRecyclerView(Context context) {
         this(context, null);
@@ -147,22 +141,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
     @Override
     public void onScrollStateChanged(int state) {
-        if (optimizeLoadImg) {
-            isLoadAccess = (state == SCROLL_STATE_IDLE);
-            if (isLoadAccess && getAdapter() != null) {
-                getAdapter().notifyDataSetChanged();
-            }
-            if (manager == null && getLayoutManager() != null) {
-                manager = (LinearLayoutManager) getLayoutManager();
-            } else {
-                throw new IllegalStateException("manager must be extend with LinearLayoutManager and RecyclerView must set LayoutManager");
-            }
-
-            firstPosition = manager.findFirstVisibleItemPosition();
-            lastPosition = manager.findLastVisibleItemPosition();
-        }
-
-
         if (state == SCROLL_STATE_IDLE) {
             if (mNeedCenterForce && !mIsForceCentering) {
                 mIsForceCentering = true;
@@ -207,22 +185,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
             return findViewAt(getWidth() / 2, 0);
         }
         return null;
-    }
-
-    public void setOptimizeLoadImg(boolean optimizeLoadImg) {
-        this.optimizeLoadImg = optimizeLoadImg;
-    }
-
-    public boolean isLoadAccess() {
-        return isLoadAccess;
-    }
-
-    public boolean vertifyPositionReleaseView(int position) {
-        if (isLoadAccess) {
-            return (position < firstPosition || position > lastPosition);
-        } else {
-            return false;
-        }
     }
 
     @Override

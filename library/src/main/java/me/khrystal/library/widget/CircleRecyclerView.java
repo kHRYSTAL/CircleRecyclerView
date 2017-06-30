@@ -8,6 +8,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,7 +18,7 @@ import me.khrystal.library.R;
 
 
 /**
- * usage:
+ * usage: CircleRecyclerView
  * author: kHRYSTAL
  * create time: 16/9/14
  * update time:
@@ -38,7 +39,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     private boolean mFirstOnLayout;
     private boolean mFirstSetAdapter = true;
 
-    private Handler mPostHandler = new Handler(){
+    private Handler mPostHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             scrollToPosition(DEFAULT_SELECTION);
@@ -59,7 +60,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     }
 
 
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -71,8 +71,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
                 mPostHandler.sendEmptyMessage(0);
             }
 //            scrollToPosition(DEFAULT_SELECTION);
-            mCurrentCenterChildView = findViewAtCenter();
-            smoothScrollToView(mCurrentCenterChildView);
+            fixScrollToCenter();
         } else if (!mNeedLoop && mNeedCenterForce) {
             LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
             if (layoutManager.canScrollHorizontally())
@@ -81,14 +80,17 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
                 setPadding(0, getHeight() / 2, 0, getHeight() / 2);
             setClipToPadding(false);
             setClipChildren(false);
-            mCurrentCenterChildView = findViewAtCenter();
-            smoothScrollToView(mCurrentCenterChildView);
+            fixScrollToCenter();
         }
 
         if (mCurrentCenterChildView != null)
             mCurrentCenterChildView.setOnClickListener(this);
     }
 
+    private void fixScrollToCenter() {
+        mCurrentCenterChildView = findViewAtCenter();
+        smoothScrollToView(mCurrentCenterChildView);
+    }
 
 
     @Override
@@ -129,7 +131,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
         } else
             throw new IllegalArgumentException("CircleRecyclerView just support T extend LinearLayoutManager!");
-        smoothScrollBy(distance,distance);
+        smoothScrollBy(distance, distance);
     }
 
     @Override
@@ -141,6 +143,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
     @Override
     public void onScrollStateChanged(int state) {
+        Log.e("Circle", "1");
         if (state == SCROLL_STATE_IDLE) {
             if (mNeedCenterForce && !mIsForceCentering) {
                 mIsForceCentering = true;
@@ -181,7 +184,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     public View findViewAtCenter() {
         if (getLayoutManager().canScrollVertically()) {
             return findViewAt(0, getHeight() / 2);
-        }else if (getLayoutManager().canScrollHorizontally()) {
+        } else if (getLayoutManager().canScrollHorizontally()) {
             return findViewAt(getWidth() / 2, 0);
         }
         return null;
@@ -218,6 +221,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
      * if not needLoop && centerForce
      * will setPadding your layoutManger direction half width or height
      * and setClipPadding(false), setClipChildren(false)
+     *
      * @param needLoop default true
      */
     public void setNeedLoop(boolean needLoop) {
@@ -247,7 +251,9 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
     public interface OnScrollListener {
         void onScrollChanged(int l, int t, int oldl, int oldt);
+
         void onScrollStateChanged(int state);
+
         void onScrolled(int dx, int dy);
     }
 

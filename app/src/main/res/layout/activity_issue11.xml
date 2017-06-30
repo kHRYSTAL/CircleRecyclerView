@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_issue11"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.khrystal.library.widget.CircleRecyclerView
+        android:id="@+id/circle_rv"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+    </me.khrystal.library.widget.CircleRecyclerView>
+
+    <Button
+        android:onClick="onNext"
+        android:text="Next"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

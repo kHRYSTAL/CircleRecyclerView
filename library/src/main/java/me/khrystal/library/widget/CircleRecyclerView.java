@@ -39,6 +39,8 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
     private boolean mFirstOnLayout;
     private boolean mFirstSetAdapter = true;
 
+    private CurrentItemCallback callback;
+
     private Handler mPostHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -131,7 +133,12 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
         } else
             throw new IllegalArgumentException("CircleRecyclerView just support T extend LinearLayoutManager!");
+
         smoothScrollBy(distance, distance);
+
+        if (callback != null) {
+            callback.onItemInCenter(v);
+        }
     }
 
     @Override
@@ -143,7 +150,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
     @Override
     public void onScrollStateChanged(int state) {
-        Log.e("Circle", "1");
         if (state == SCROLL_STATE_IDLE) {
             if (mNeedCenterForce && !mIsForceCentering) {
                 mIsForceCentering = true;
@@ -243,6 +249,10 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
     public void setOnScrollListener(OnScrollListener listener) {
         mOnScrollListener = listener;
+    }
+
+    public void setCurrentItemCallback(CurrentItemCallback callback) {
+        this.callback = callback;
     }
 
     public interface OnCenterItemClickListener {

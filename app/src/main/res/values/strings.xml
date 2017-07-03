@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CircleRecyclerViewDemo</string>
+    <string name="item_position">item_position</string>
+    <string name="item_text">item_text</string>
 </resources>

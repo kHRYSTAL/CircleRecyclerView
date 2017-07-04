@@ -1,5 +1,8 @@
 package me.khrystal.circlerecyclerviewdemo;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +25,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
 import me.khrystal.library.widget.CurrentItemCallback;
+import me.khrystal.library.widget.ScaleXViewMode;
 import me.khrystal.library.widget.ScaleYViewMode;
 
 /**
@@ -35,12 +39,21 @@ import me.khrystal.library.widget.ScaleYViewMode;
 public class Issue12Activity extends AppCompatActivity {
 
     private CircleRecyclerView mCircleRecyclerView;
+    private ImageView topIv;
+
     private List<Integer> mImgList;
 
     private Integer[] mImgs = {
-            R.drawable.img_1, R.drawable.img_2, R.drawable.img_3, R.drawable.img_4,
-            R.drawable.img_5, R.drawable.img_6, R.drawable.img_7, R.drawable.img_8,
-            R.drawable.img_9, R.drawable.img_10, R.drawable.img_11, R.drawable.img_12
+        R.color.color1,
+        R.color.color2,
+        R.color.color3,
+        R.color.color4,
+        R.color.color5,
+        R.color.color6,
+        R.color.color7,
+        R.color.color8,
+        R.color.color9,
+
     };
 
     @Override
@@ -48,12 +61,13 @@ public class Issue12Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue12);
         mCircleRecyclerView = (CircleRecyclerView) findViewById(R.id.circle_rv);
-        mCircleRecyclerView.setLayoutManager(new LinearLayoutManager(Issue12Activity.this));
-        mCircleRecyclerView.setViewMode(new ScaleYViewMode());
+        topIv = (ImageView) findViewById(R.id.topIv);
+
+        mCircleRecyclerView.setLayoutManager(new LinearLayoutManager(Issue12Activity.this, LinearLayoutManager.HORIZONTAL, false));
+        mCircleRecyclerView.setViewMode(new ScaleXViewMode());
         mCircleRecyclerView.setNeedLoop(false);
 
         mImgList = Arrays.asList(mImgs);
-        Collections.shuffle(mImgList);
 
         mCircleRecyclerView.setAdapter(new A());
         mCircleRecyclerView.setNeedCenterForce(true);
@@ -61,9 +75,13 @@ public class Issue12Activity extends AppCompatActivity {
         mCircleRecyclerView.setCurrentItemCallback(new CurrentItemCallback() {
             @Override
             public void onItemInCenter(View centerItem) {
-                int position = (int) centerItem.getTag(R.string.item_position);
-                position = position % mImgList.size();
-                Toast.makeText(Issue12Activity.this, "" + position, Toast.LENGTH_SHORT).show();
+                int resId = (int) centerItem.getTag(R.string.item_position);
+                Drawable drawable = topIv.getDrawable();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    drawable.setColorFilter(getColor(resId), PorterDuff.Mode.SRC_IN);
+                else
+                    drawable.setColorFilter(getResources().getColor(resId), PorterDuff.Mode.SRC_IN);
             }
         });
 
@@ -75,7 +93,7 @@ public class Issue12Activity extends AppCompatActivity {
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
             VH h = null;
             h = new VH(LayoutInflater.from(Issue12Activity.this)
-                    .inflate(R.layout.item_v, parent, false));
+                    .inflate(R.layout.item_h, parent, false));
 
             return h;
         }
@@ -83,11 +101,9 @@ public class Issue12Activity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(VH holder, int position) {
             holder.tv.setText("Number :" + (position % mImgList.size()));
-            Glide.with(Issue12Activity.this)
-                    .load(mImgList.get(position % mImgList.size()))
-                    .bitmapTransform(new CropCircleTransformation(Issue12Activity.this))
-                    .into(holder.iv);
-            holder.itemView.setTag(R.string.item_position, position);
+            Integer resId = mImgList.get(position % mImgList.size());
+            holder.iv.setBackgroundResource(resId);
+            holder.itemView.setTag(R.string.item_position, resId);
         }
 
         @Override

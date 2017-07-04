@@ -3,4 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- issue12 use color -->
+    <color name="color1">#7F7F7F</color>
+    <color name="color2">#880016</color>
+    <color name="color3">#ED1C24</color>
+    <color name="color4">#FF7F27</color>
+    <color name="color5">#FFF200</color>
+    <color name="color6">#23B14D</color>
+    <color name="color7">#00A2E8</color>
+    <color name="color8">#3F48CC</color>
+    <color name="color9">#A349A4</color>
+
 </resources>

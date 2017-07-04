@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_issue11"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/topIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher" />
+
     <me.khrystal.library.widget.CircleRecyclerView
         android:id="@+id/circle_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </me.khrystal.library.widget.CircleRecyclerView>
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"></me.khrystal.library.widget.CircleRecyclerView>
 </RelativeLayout>

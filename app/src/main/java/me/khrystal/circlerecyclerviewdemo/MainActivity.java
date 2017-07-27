@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         mToolbar.setTitle("TYPE_CIRCLE_RTL");
                         break;
                     case R.id.issue:
-                        startActivity(new Intent(MainActivity.this, Issue12Activity.class));
+                        startActivity(new Intent(MainActivity.this, Issue13Activity.class));
                         return true;
                     default:
                         break;

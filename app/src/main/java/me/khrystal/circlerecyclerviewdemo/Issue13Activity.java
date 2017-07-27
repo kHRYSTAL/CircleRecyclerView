@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -31,7 +33,6 @@ public class Issue13Activity extends AppCompatActivity {
 
     private CircleRecyclerView mCircleRecyclerView;
     private List<Integer> mImgList;
-    int firstRow, lastRow, totalRow = 6;
 
 
     private Integer[] mImgs = {
@@ -50,90 +51,20 @@ public class Issue13Activity extends AppCompatActivity {
         mCircleRecyclerView.setLayoutManager(layoutManager);
         mCircleRecyclerView.setViewMode(new ScaleYViewMode());
         mCircleRecyclerView.setNeedLoop(false);  // set no fake loop, it's mean not use MAX_VALUE >> 1
+        mImgList = Arrays.asList(mImgs);
+        Collections.shuffle(mImgList);
 
-
-        //region config real loop
-        mImgList = new ArrayList<>();
-        firstRow = mImgs.length - 1;
-        while (firstRow < 0) {
-            firstRow += mImgs.length;
-        }
-
-        for (int i = 0; i < totalRow; i++) {
-            mImgList.add(mImgs[firstRow]);
-            firstRow++;
-            if (firstRow >= mImgs.length)
-                firstRow = 0;
-        }
-
-        firstRow -= totalRow;
-        while (firstRow < 0) {
-            firstRow += mImgs.length;
-        }
-
-        lastRow = firstRow + totalRow - 1;
-        while (lastRow >= mImgs.length) {
-            lastRow -= mImgs.length;
-        }
-
-
-        mCircleRecyclerView.smoothScrollToPosition(totalRow / 2);
+        mCircleRecyclerView.setAdapter(new A());
+        //if init not want find center view but want view scroll fix center write this below setAdapter()
+        mCircleRecyclerView.setNeedCenterForce(true);
         mCircleRecyclerView.setOnScrollListener(new CircleRecyclerView.OnScrollListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
-                if (layoutManager.findFirstVisibleItemPosition() + layoutManager.findLastVisibleItemPosition()
-                        >= layoutManager.getItemCount()) {
-                    mImgList = new ArrayList<Integer>();
-                    lastRow -= totalRow / 2;
-                    while (lastRow < 0) {
-                        lastRow += mImgs.length;
-                    }
-                    for (int i = 0; i < totalRow; i++) {
-                        mImgList.add(mImgs[lastRow]);
-                        lastRow++;
-                        if (lastRow >= mImgs.length) {
-                            lastRow = 0;
-                        }
-                    }
-                    firstRow = lastRow - totalRow;
-                    while (firstRow < 0) {
-                        firstRow += mImgs.length;
-                    }
-                    lastRow--;
-                    while (lastRow < 0) {
-                        lastRow += mImgs.length;
-                    }
-
-                    // TODO: 17/7/27
-                    mCircleRecyclerView.smoothScrollToView(mCircleRecyclerView.findViewAtCenter());
-
+                if (layoutManager.findLastVisibleItemPosition() <= 2) {
+                    layoutManager.scrollToPosition(mImgList.size() + 2);
+                } else if (layoutManager.findFirstVisibleItemPosition() + layoutManager.findLastVisibleItemPosition() > layoutManager.getItemCount() - 2) {//到底部添加数据
+                    layoutManager.scrollToPosition(layoutManager.findFirstVisibleItemPosition() - mImgList.size());
                 }
-
-                if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
-                    mImgList = new ArrayList<Integer>();
-                    firstRow -= totalRow / 2;
-                    while (firstRow < 0) {
-                        firstRow += mImgs.length;
-                    }
-                    for (int i = 0; i < totalRow; i++) {
-                        mImgList.add(mImgs[firstRow]);
-                        firstRow++;
-                        if (firstRow >= mImgs.length) {
-                            firstRow = 0;
-                        }
-                    }
-                    firstRow -= totalRow;
-                    while (firstRow < 0) {
-                        firstRow += mImgs.length;
-                    }
-                    lastRow = firstRow + totalRow - 1;
-                    while (lastRow >= mImgs.length) {
-                        lastRow -= mImgs.length;
-                    }
-                    mCircleRecyclerView.setAdapter(new A());
-                    mCircleRecyclerView.smoothScrollToPosition((totalRow / 2) + 1);
-                }
-
             }
 
             @Override
@@ -146,10 +77,6 @@ public class Issue13Activity extends AppCompatActivity {
 
             }
         });
-
-
-        //endregion
-
     }
 
     class A extends RecyclerView.Adapter<Issue13Activity.VH> {
@@ -175,7 +102,7 @@ public class Issue13Activity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mImgList.size();
+            return mImgList.size() * 3;
         }
     }
 

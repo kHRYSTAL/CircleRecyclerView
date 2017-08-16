@@ -20,6 +20,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
 import me.khrystal.library.widget.CircularHorizontalMode;
+import me.khrystal.library.widget.CircularHorizontalModeBTT;
 import me.khrystal.library.widget.CircularViewMode;
 import me.khrystal.library.widget.CircularViewRTLMode;
 import me.khrystal.library.widget.ItemViewMode;
@@ -104,6 +105,15 @@ public class MultiModeFragment extends Fragment {
                 mItemViewMode = new CircularViewRTLMode();
                 mLayoutManager = new LinearLayoutManager(getContext());
                 break;
+            case 9:
+                // notice when use horizontal layoutManager and item in recyclerView bottom
+                // the item xml file is not useful set marginTop and set alginParentBottom,
+                // u can use the first argument to control the item position of the recyclerView
+                // and this offset need use some density util to resolve adaptation
+                // and the offset is relative recyclerView top abs distance
+                mItemViewMode = new CircularHorizontalModeBTT(600, false);
+                mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                break;
 
         }
 
@@ -142,6 +152,10 @@ public class MultiModeFragment extends Fragment {
                 else if (mItemViewMode instanceof CircularViewRTLMode)
                     h = new VH(LayoutInflater.from(getContext())
                             .inflate(R.layout.item_c_rtl_v, parent, false));
+                else if (mItemViewMode instanceof CircularHorizontalModeBTT) {
+                    h = new VH(LayoutInflater.from(getContext())
+                            .inflate(R.layout.item_h_btt, parent, false));
+                }
                 else
                     h = new VH(LayoutInflater.from(getContext())
                             .inflate(R.layout.item_v, parent, false));

@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mode_8:
                         modeType = ModeType.TYPE_CIRCLE_RTL;
                         mToolbar.setTitle("TYPE_CIRCLE_RTL");
+                        break;
+                    case R.id.mode_9:
+                        modeType = ModeType.TYPE_HORIZONTAL_CIRCLE_BTT;
+                        mToolbar.setTitle("HORIZONTAL_CIRCLE");
                     default:
                         break;
                 }

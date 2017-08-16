@@ -34,5 +34,10 @@
         android:id="@+id/mode_8"
         android:title="CircleModeRTL"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/mode_9"
+        android:title="HorizontalCircleBTT"
+        app:showAsAction="never"/>
+
 
 </menu>  

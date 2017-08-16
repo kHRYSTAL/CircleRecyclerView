@@ -12,7 +12,7 @@ import android.view.View;
  * email: 723526676@qq.com
  */
 
-public class CircularHorizontalModeBTT implements ItemViewMode {
+public class CircularHorizontalBTTMode implements ItemViewMode {
 
     private int mCircleOffset = 500;
     private float mDegToRad = 1.0f / 180.0f * (float) Math.PI;
@@ -21,12 +21,12 @@ public class CircularHorizontalModeBTT implements ItemViewMode {
     private float mYOffset = 100;
     private boolean mUseRotation = false;
 
-    public CircularHorizontalModeBTT(float yOffset, boolean useRotation) {
+    public CircularHorizontalBTTMode(float yOffset, boolean useRotation) {
         this.mYOffset = yOffset;
         this.mUseRotation = useRotation;
     }
 
-    public CircularHorizontalModeBTT(int circleOffset, float degToRad,
+    public CircularHorizontalBTTMode(int circleOffset, float degToRad,
                                      float scalingRatio, float translationRatio,
                                      float yOffset, boolean useRotation) {
         mCircleOffset = circleOffset;

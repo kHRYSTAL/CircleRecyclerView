@@ -39,5 +39,10 @@
         android:title="HorizontalCircleBTT"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/issue"
+        android:title="issue16"
+        app:showAsAction="never"/>
+
 
 </menu>  

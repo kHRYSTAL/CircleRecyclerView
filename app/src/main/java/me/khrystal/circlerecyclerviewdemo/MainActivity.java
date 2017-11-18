@@ -1,5 +1,6 @@
 package me.khrystal.circlerecyclerviewdemo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mode_9:
                         modeType = ModeType.TYPE_HORIZONTAL_CIRCLE_BTT;
                         mToolbar.setTitle("HORIZONTAL_CIRCLE");
+                        break;
+                    case R.id.issue:
+                        startActivity(new Intent(MainActivity.this, Issue16Activity.class));
                     default:
                         break;
                 }

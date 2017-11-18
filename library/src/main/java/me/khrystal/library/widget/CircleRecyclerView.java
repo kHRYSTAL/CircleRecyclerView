@@ -8,6 +8,8 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -24,6 +26,8 @@ import me.khrystal.library.R;
  * email: 723526676@qq.com
  */
 public class CircleRecyclerView extends RecyclerView implements View.OnClickListener {
+
+    private static final String TAG = "CircleRecyclerView";
 
     private static final int DEFAULT_SELECTION = Integer.MAX_VALUE >> 1;
 
@@ -83,6 +87,9 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
             setClipChildren(false);
             mCurrentCenterChildView = findViewAtCenter();
             smoothScrollToView(mCurrentCenterChildView);
+        } else {
+            setClipToPadding(false);
+            setClipChildren(false);
         }
 
         if (mCurrentCenterChildView != null)
@@ -112,6 +119,26 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 
         if (mOnScrollListener != null)
             mOnScrollListener.onScrollChanged(l, t, oldl, oldt);
+    }
+
+    @Override
+    public void requestLayout() {
+        super.requestLayout();
+
+        if (mViewMode != null && getLayoutManager() != null) {
+            int count = getLayoutManager().getChildCount();
+            for (int i = 0; i < count; ++i) {
+                View v = getChildAt(i);
+                if (v != mCurrentCenterChildView && mCenterItemClickListener != null)
+                    v.setOnClickListener(null);
+                if (v == mCurrentCenterChildView)
+                    v.setTag(R.string.tag_is_center, true);
+                else
+                    v.setTag(R.string.tag_is_center, false);
+                mViewMode.applyToView(v, this);
+            }
+        }
+
     }
 
     public void smoothScrollToView(View v) {

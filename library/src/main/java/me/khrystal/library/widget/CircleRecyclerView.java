@@ -3,20 +3,18 @@ package me.khrystal.library.widget;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 
 import me.khrystal.library.R;
-
 
 /**
  * usage:
@@ -62,8 +60,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
-
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -77,7 +73,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 //            scrollToPosition(DEFAULT_SELECTION);
             mCurrentCenterChildView = findViewAtCenter();
             smoothScrollToView(mCurrentCenterChildView);
-        } else if (!mNeedLoop && mNeedCenterForce) {
+        } else if (mNeedCenterForce) {
             LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
             if (layoutManager.canScrollHorizontally())
                 setPadding(getWidth() / 2, 0, getWidth() / 2, 0);
@@ -95,8 +91,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         if (mCurrentCenterChildView != null)
             mCurrentCenterChildView.setOnClickListener(this);
     }
-
-
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
@@ -225,7 +219,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         private WeakReference<View> mView;
 
         public void setView(View v) {
-            mView = new WeakReference<View>(v);
+            mView = new WeakReference<>(v);
         }
 
         @Override

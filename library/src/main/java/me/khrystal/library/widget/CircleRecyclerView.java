@@ -73,7 +73,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
 //            scrollToPosition(DEFAULT_SELECTION);
             mCurrentCenterChildView = findViewAtCenter();
             smoothScrollToView(mCurrentCenterChildView);
-        } else if (!mNeedLoop && mNeedCenterForce) {
+        } else if (mNeedCenterForce) {
             LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
             if (layoutManager.canScrollHorizontally())
                 setPadding(getWidth() / 2, 0, getWidth() / 2, 0);
@@ -219,7 +219,7 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         private WeakReference<View> mView;
 
         public void setView(View v) {
-            mView = new WeakReference<View>(v);
+            mView = new WeakReference<>(v);
         }
 
         @Override

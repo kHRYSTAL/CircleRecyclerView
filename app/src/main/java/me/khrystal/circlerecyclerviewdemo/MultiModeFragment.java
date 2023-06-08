@@ -1,9 +1,6 @@
 package me.khrystal.circlerecyclerviewdemo;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+//import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
 import me.khrystal.library.widget.CircularHorizontalMode;
 import me.khrystal.library.widget.CircularHorizontalBTTMode;
@@ -167,9 +169,13 @@ public class MultiModeFragment extends Fragment {
         @Override
         public void onBindViewHolder(VH holder, int position) {
             holder.tv.setText("Number :" + (position % mImgList.size()));
+//            Glide.with(getContext())
+//                    .load(mImgList.get(position % mImgList.size()))
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(holder.iv);
             Glide.with(getContext())
                     .load(mImgList.get(position % mImgList.size()))
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .apply(RequestOptions.circleCropTransform())
                     .into(holder.iv);
 
         }

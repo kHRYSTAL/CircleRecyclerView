@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle("TYPE_CIRCLE");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);

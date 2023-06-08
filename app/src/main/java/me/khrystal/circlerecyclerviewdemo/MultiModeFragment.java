@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,11 +67,11 @@ public class MultiModeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         int modeType = getArguments().getInt("mode_type");
-        mCircleRecyclerView = (CircleRecyclerView) view.findViewById(R.id.circle_rv);
+        mCircleRecyclerView = view.findViewById(R.id.circle_rv);
 
 //        find itemViewMode and layoutManager
         switch (modeType) {
@@ -141,8 +142,9 @@ public class MultiModeFragment extends Fragment {
 
     class A extends RecyclerView.Adapter<VH> {
 
+        @NonNull
         @Override
-        public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             VH h = null;
             if (mCircleRecyclerView.getLayoutManager().canScrollHorizontally()) {
                 h = new VH(LayoutInflater.from(getContext())
@@ -187,15 +189,15 @@ public class MultiModeFragment extends Fragment {
     }
 
 
-    class VH extends RecyclerView.ViewHolder {
+    static class VH extends RecyclerView.ViewHolder {
 
         TextView tv;
         ImageView iv;
 
         public VH(View itemView) {
             super(itemView);
-            tv = (TextView) itemView.findViewById(R.id.item_text);
-            iv = (ImageView) itemView.findViewById(R.id.item_img);
+            tv = itemView.findViewById(R.id.item_text);
+            iv = itemView.findViewById(R.id.item_img);
         }
     }
 }

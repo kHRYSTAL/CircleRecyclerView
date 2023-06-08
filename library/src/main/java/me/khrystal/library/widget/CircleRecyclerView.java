@@ -16,7 +16,6 @@ import java.lang.ref.WeakReference;
 
 import me.khrystal.library.R;
 
-
 /**
  * usage:
  * author: kHRYSTAL
@@ -61,8 +60,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
-
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -94,8 +91,6 @@ public class CircleRecyclerView extends RecyclerView implements View.OnClickList
         if (mCurrentCenterChildView != null)
             mCurrentCenterChildView.setOnClickListener(this);
     }
-
-
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {

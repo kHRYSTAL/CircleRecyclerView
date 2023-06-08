@@ -36,7 +36,9 @@ dependencies {
 
     implementation project(':library')
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-//    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    // If you want to use the GPU Filters
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 //import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.khrystal.library.widget.CircleRecyclerView;
 import me.khrystal.library.widget.CircularHorizontalMode;
 import me.khrystal.library.widget.CircularHorizontalBTTMode;
@@ -171,11 +173,13 @@ public class MultiModeFragment extends Fragment {
         @Override
         public void onBindViewHolder(VH holder, int position) {
             holder.tv.setText("Number :" + (position % mImgList.size()));
-//            Glide.with(getContext())
+
+//            Glide.with(requireContext())
 //                    .load(mImgList.get(position % mImgList.size()))
-//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .apply(RequestOptions.bitmapTransform(new BlurTransformation()))
 //                    .into(holder.iv);
-            Glide.with(getContext())
+
+            Glide.with(requireContext())
                     .load(mImgList.get(position % mImgList.size()))
                     .apply(RequestOptions.circleCropTransform())
                     .into(holder.iv);
